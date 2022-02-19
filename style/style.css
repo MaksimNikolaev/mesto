@@ -1,0 +1,27 @@
+.page {
+  max-width: 1280px;
+  min-width: 320px;
+  margin: 0 auto;
+  background-color: #000000;
+}
+.container {
+  max-width: 880px;
+  margin: 0 auto;
+}
+.header {
+  min-height: 74px;
+  padding-top: 45px;
+  padding-bottom: 40px;
+}
+.header__logo {
+  width: 142px;
+  height: 33px;
+}
+.header__line {
+  border: none;
+  margin: 0;
+  margin-top: 37px;
+  background-color: #545454;
+  opacity: 0.7;
+  height: 1px;
+}
