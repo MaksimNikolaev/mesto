@@ -15,6 +15,7 @@
 .container {
   max-width: 880px;
   margin: 0 auto;
+  padding: 0 19px 0;
 }
 .header {
   min-height: 74px;
@@ -34,13 +35,31 @@
   height: 1px;
 }
 
+@media (max-width: 600px) {
+  .header {
+    min-height: 56px;
+    padding-top: 28px;
+    padding-bottom: 42px;
+  }
+  .header__logo {
+    width: 103.74px;
+    height: 24.4px;
+    margin-left: 8px;
+  }
+  .header__line {
+    margin-top: 27px;
+  }
+}
+
 .profile {
   display: flex;
   align-items: center;
   justify-content: space-between;
   color:#FFFFFF;
-  padding-bottom: 50px;
+  margin-bottom: 50px;
 }
+
+
 .profile__avatar {
   width: 120px;
   height: 120px;
@@ -95,11 +114,46 @@
     flex-shrink: 0;
 }
 
+@media (max-width: 768px) {
+  .profile__title {
+  font-size: 27px;
+  line-height: 33px;
+  text-align: center;
+  }
+}
+
+@media (max-width: 600px) {
+  .profile {
+    flex-direction: column;
+    margin-bottom: 36px;
+  }
+  .profile__info {
+    margin: 26px 0 0;
+    align-items: center;
+    width: 100%;
+  }
+  .profile__edit-button {
+    width: 18px;
+    height: 18px;
+    margin-left: 10px;
+  }
+  .profile__subtitle {
+    font-size: 14px;
+    line-height: 17px;
+    text-align: center;
+    margin-top: 6px;
+  }
+  .profile__add-button {
+    margin-top: 36px;
+    width: 100%;
+  }
+}
+
 .elements {
 }
 .elements__items {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(282px, 1fr));
   column-gap: 17px;
   row-gap: 20px;
   list-style: none;
@@ -113,6 +167,7 @@
   background-color: #FFFFFF;
   border-radius: 10px;
   overflow: hidden;
+  margin: 0 auto;
 }
 .elements__photo {
   width: 282px;
@@ -142,4 +197,31 @@
     width: 22px;
     outline: none;
     padding: 0;
+}
+
+@media (max-width: 320px){
+  .elements__items {
+    padding-bottom: 48px;
+  }
+}
+
+.footer {
+  padding-bottom: 60px;
+}
+.footer__info {
+  margin: 0;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 22px;
+  color: #545454;
+}
+
+@media (max-width: 320px){
+  .footer {
+    padding-bottom: 36px;
+  }
+  .footer__info {
+    font-size: 14px;
+    line-height: 17px;
+  }
 }
