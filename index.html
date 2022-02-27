@@ -5,7 +5,6 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="./pages/index.css">
-  <link rel="stylesheet" href="./style/style.css">
   <title>MESTO</title>
 </head>
 <body class="page">
@@ -77,7 +76,7 @@
             <div class="elements__cover">
               <img src="./images/elements/Karachaevsk.jpg" alt="Карачаево-Ч..." class="elements__photo">
               <div class="elements__info">
-                <h2 class="elements__title">Карачаево-Ч...</h2>
+                <h2 class="elements__title">Карачаево-Черкесова</h2>
                 <button class="elements__like"></button>
               </div>
             </div>
@@ -91,17 +90,18 @@
     </footer>
   </div>
   <div class="popup">
-    <div class="popup__body">
+    <div class="popup__container">
       <div class="popup__content">
-        <a href="" class="popup__close"></a>
+        <button type="button" class="popup__close" aria-label="Закрыть попап"></button>
         <h2 class="popup__title">Редактировать профиль</h2>
-        <form class="popup__form">
-          <input type="text" class="popup__input">
-          <input type="text" class="popup__input">
-          <button class="popup__button-save">Сохранить</button>
+        <form class="popup__form" method="POST">
+          <input type="text" class="popup__input popup__name">
+          <input type="text" class="popup__input popup__job">
+          <button type="submit" class="popup__button-save">Сохранить</button>
         </form>
       </div>
     </div>
   </div>
+<script src="./script/script.js"></script>
 </body>
 </html>
