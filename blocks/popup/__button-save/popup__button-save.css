@@ -8,6 +8,12 @@
   color: #FFFFFF;
   background: #000000;
   border-radius: 2px;
+  cursor: pointer;
+  transition: opacity .4s;
+}
+
+.popup__button-save:hover {
+  opacity: 0.8;
 }
 
 @media (max-width: 320px) {
