@@ -22,3 +22,9 @@
     padding-bottom: 42px;
   }
 }
+
+@media (max-width: 320px) {
+  .header::after {
+    margin-top: 26px;
+  }
+}

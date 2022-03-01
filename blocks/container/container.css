@@ -3,3 +3,9 @@
   margin: 0 auto;
   padding: 0 19px 0;
 }
+
+@media (max-width:320px) {
+  .container {
+    padding: 0;
+  }
+}

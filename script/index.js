@@ -24,7 +24,7 @@ function formSubmitHandler (evt) {
   evt.preventDefault();
   profileTitle.textContent = nameInput.value;
   profileSubtitle.textContent = jobInput.value;
-  popup.classList.toggle('popup_opened');
+  closedPopup ();
 }
 
 openPopup.addEventListener('click', togglePopup);
