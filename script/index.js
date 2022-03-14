@@ -1,3 +1,30 @@
+const initialCards = [
+  {
+    name: 'Архыз',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
+  },
+  {
+    name: 'Челябинская область',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
+  },
+  {
+    name: 'Иваново',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
+  },
+  {
+    name: 'Камчатка',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
+  },
+  {
+    name: 'Холмогорский район',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
+  },
+  {
+    name: 'Байкал',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
+  }
+];
+
 const popup = document.querySelector('.popup');
 const closePopup = popup.querySelector('.popup__close');
 const openPopup = document.querySelector('.profile__edit-button');
@@ -7,6 +34,7 @@ const jobInput = formElement.querySelector('.popup__input_data_job');
 const profileTitle = document.querySelector('.profile__title');
 const profileSubtitle = document.querySelector('.profile__subtitle');
 const likeList = document.querySelectorAll('.elements__like');
+const cardsList = document.querySelector('.elements__items');
 
 
 //-------------Попап--------------------//
@@ -41,6 +69,22 @@ document.addEventListener('keydown', function (event){
   }
 });
 
+//--------------------------------------//
+//---------Рендеринг карточек-----------//
+function renderCards (place, link) {
+  const cards = document
+    .querySelector('.cards-template')
+    .content.firstElementChild.cloneNode(true);
+  cards.querySelector('.elements__photo').src = link;
+  cards.querySelector('.elements__title').textContent = place;
+
+  
+
+  cardsList.append(cards);
+}
+
+
+initialCards.forEach(card => renderCards(card.name, card.link));
 //--------------------------------------//
 
 //-------------Лайки--------------------//
