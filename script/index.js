@@ -40,10 +40,11 @@ const placeInput = document.querySelector('.popup__input_data_place');
 const linkInput = document.querySelector('.popup__input_data_link');
 const profileTitle = document.querySelector('.profile__title');
 const profileSubtitle = document.querySelector('.profile__subtitle');
-const likeList = document.querySelectorAll('.elements__like');
+const likeList = document.querySelector('.elements__like');
 const cardsList = document.querySelector('.elements__items');
 
-console.log(likeList);
+
+
 //-------------Попап--------------------//
 function togglePopup (popup) {
   popup.classList.toggle('popup_opened');
@@ -92,11 +93,17 @@ document.addEventListener('keydown', function (event){
 //--------------------------------------//
 //---------Рендеринг карточек-----------//
 function renderCards (place, link) {
+
   const cards = document
     .querySelector('.cards-template')
     .content.firstElementChild.cloneNode(true);
   cards.querySelector('.elements__title').textContent = place;
   cards.querySelector('.elements__photo').src = link;
+  cards.querySelector('.elements__photo').alt = place;
+  cards.querySelector('.elements__like').addEventListener('click', function (evt){
+    evt.target.classList.toggle('elements__like_active')
+  })
+  cards.querySelector('.elements__trash').addEventListener('click', removeCard);
   cardsList.prepend(cards);
 }
 
@@ -121,10 +128,9 @@ function formSubmitHandlerNewCard (evt) {
 formElementAdd.addEventListener('submit', formSubmitHandlerNewCard);
 
 //--------------------------------------//
-//-------------Лайки--------------------//
-likeList.forEach( element => {
-  element.addEventListener( 'click', function(){
-    element.classList.toggle('elements__like_active');
-  });
-});
-//--------------------------------------//
+
+function removeCard (evt) {
+  const element = evt.currentTarget.closest('.elements__item');
+  element.remove();
+  console.log('Удаляйся')
+}
