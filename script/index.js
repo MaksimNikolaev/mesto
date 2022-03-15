@@ -32,15 +32,18 @@ const closePopupEdit = document.querySelector('.popup_closeEdit');
 const closePopupAdd = document.querySelector('.popup_closeAdd');
 const openPopupEdit = document.querySelector('.profile__edit-button');
 const openPopupAdd = document.querySelector('.profile__add-button');
-const formElement = document.querySelector('.popup__form');
-const nameInput = formElement.querySelector('.popup__input_data_name');
-const jobInput = formElement.querySelector('.popup__input_data_job');
+const formElementEdit = document.querySelector('.popup__form_data_edit');
+const formElementAdd = document.querySelector('.popup__form_data_add');
+const nameInput = formElementEdit.querySelector('.popup__input_data_name');
+const jobInput = formElementEdit.querySelector('.popup__input_data_job');
+const placeInput = document.querySelector('.popup__input_data_place');
+const linkInput = document.querySelector('.popup__input_data_link');
 const profileTitle = document.querySelector('.profile__title');
 const profileSubtitle = document.querySelector('.profile__subtitle');
 const likeList = document.querySelectorAll('.elements__like');
 const cardsList = document.querySelector('.elements__items');
 
-
+console.log(likeList);
 //-------------Попап--------------------//
 function togglePopup (popup) {
   popup.classList.toggle('popup_opened');
@@ -73,7 +76,7 @@ closePopupAdd.addEventListener('click', function() {
   closedPopup(popupAdd)
 });
 
-formElement.addEventListener('submit', formSubmitHandler);
+formElementEdit.addEventListener('submit', formSubmitHandler);
 
 popup.addEventListener('click', function (event) {
   if (event.target === event.currentTarget) {
@@ -92,16 +95,32 @@ function renderCards (place, link) {
   const cards = document
     .querySelector('.cards-template')
     .content.firstElementChild.cloneNode(true);
-  cards.querySelector('.elements__photo').src = link;
   cards.querySelector('.elements__title').textContent = place;
-
-  cardsList.append(cards);
+  cards.querySelector('.elements__photo').src = link;
+  cardsList.prepend(cards);
 }
 
 
 initialCards.forEach(card => renderCards(card.name, card.link));
 //--------------------------------------//
+//---------Добавление карточек-----------//
+function createCard () {
+  const newCard = [];
+  newCard.name = placeInput.value;
+  newCard.link = linkInput.value;
+  renderCards(newCard.name, newCard.link);
+}
 
+function formSubmitHandlerNewCard (evt) {
+  evt.preventDefault();
+  createCard();
+  placeInput.value = '';
+  linkInput.value = '';
+  closedPopup (popupAdd);
+}
+formElementAdd.addEventListener('submit', formSubmitHandlerNewCard);
+
+//--------------------------------------//
 //-------------Лайки--------------------//
 likeList.forEach( element => {
   element.addEventListener( 'click', function(){
