@@ -49,62 +49,66 @@ const photo = document.querySelector('.elements__photo');
 const profileTitle = document.querySelector('.profile__title');
 const profileSubtitle = document.querySelector('.profile__subtitle');
 const likeList = document.querySelector('.elements__like');
-const cardsList = document.querySelector('.elements__items');
+const cardList = document.querySelector('.elements__items');
 
 
 
 //-------------Попап--------------------//
-function togglePopup (popup) {
-  popup.classList.toggle('popup_opened');
-  nameInput.value = profileTitle.textContent;
-  jobInput.value = profileSubtitle.textContent;
+function openPopup (popup) {
+  popup.classList.add('popup_opened');
+  
 }
 
 function closedPopup (popup) {
-  popup.classList.toggle('popup_opened');
+  popup.classList.remove('popup_opened');
 }
 
-function formSubmitHandler (evt) {
+function setUserInfo (evt) {
   evt.preventDefault();
   profileTitle.textContent = nameInput.value;
   profileSubtitle.textContent = jobInput.value;
   closedPopup (popupEdit);
 }
 
+function addLike (evt) {
+  evt.target.classList.toggle('elements__like_active');
+}
+
+function openPopupPhoto (place, link) {
+  photoFull.src = link;
+  photoCaption.textContent = place;
+  openPopup(popupPhoto);
+}
+
 //---------Рендеринг карточек-----------//
-function renderCards (place, link) {
-  const cards = document
+function createCard (place, link) {
+  const card = document
     .querySelector('.cards-template')
     .content.firstElementChild.cloneNode(true);
-    const elementPhoto = cards.querySelector('.elements__photo');
-  cards.querySelector('.elements__title').textContent = place;
+    const elementPhoto = card.querySelector('.elements__photo');
+  card.querySelector('.elements__title').textContent = place;
   elementPhoto.src = link;
   elementPhoto.alt = place;
-  cards.querySelector('.elements__like').addEventListener('click', function (evt){  //слушатель лайков
-    evt.target.classList.toggle('elements__like_active')
-  })
-  cards.querySelector('.elements__trash').addEventListener('click', removeCard);  //слушатель удаления карточек
-  elementPhoto.addEventListener('click', function (evt){
-    photoFull.src = link;
-    photoCaption.textContent = place;
-    popupPhoto.classList.toggle('popup_opened');
-  })
-  cardsList.prepend(cards);
+  card.querySelector('.elements__like').addEventListener('click', addLike);  ////слушатель добавления лайков
+  card.querySelector('.elements__trash').addEventListener('click', removeCard);  //слушатель удаления карточек
+  elementPhoto.addEventListener('click',  ()=>{
+    openPopupPhoto(place, link)
+  });
+  return card;
 }
 
 //---------Добавление карточек-----------//
-function createCard () {
+function renderCard () {
   const newCard = [];
   newCard.name = placeInput.value;
   newCard.link = linkInput.value;
-  renderCards(newCard.name, newCard.link);
+  const elem = createCard(newCard.name, newCard.link);
+  cardList.prepend(elem);
 }
 
-function formSubmitHandlerNewCard (evt) {
+function addCard (evt) {
   evt.preventDefault();
-  createCard();
-  placeInput.value = '';
-  linkInput.value = '';
+  renderCard();
   closedPopup (popupAdd);
 }
 
@@ -113,15 +117,17 @@ function removeCard (evt) {
   element.remove();
 }
 
-initialCards.forEach(card => renderCards(card.name, card.link));
-
+initialCards.forEach(card => cardList.prepend(createCard(card.name, card.link)));
 
 //-------Открытие Попапа--------------------//
 openPopupEdit.addEventListener('click', function () {
-  togglePopup(popupEdit)
+  openPopup(popupEdit);
+  nameInput.value = profileTitle.textContent;
+  jobInput.value = profileSubtitle.textContent;
 });
 openPopupAdd.addEventListener('click', function () {
-  togglePopup(popupAdd)
+  formElementAdd.reset();
+  openPopup(popupAdd)
 });
 //-------Закрытие Попапа--------------------//
 closePopupEdit.addEventListener('click', function() {
@@ -134,10 +140,8 @@ closePopupPhoto.addEventListener('click', function() {
   closedPopup(popupPhoto)
 });
 
-formElementEdit.addEventListener('submit', formSubmitHandler);
+formElementEdit.addEventListener('submit', setUserInfo);
 
-formElementAdd.addEventListener('submit', formSubmitHandlerNewCard);
-
-
+formElementAdd.addEventListener('submit', addCard);
 
 
