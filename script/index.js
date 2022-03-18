@@ -99,17 +99,12 @@ function createCard (place, link) {
 
 //---------Добавление карточек-----------//
 function renderCard () {
+  
   const newCard = [];
   newCard.name = placeInput.value;
   newCard.link = linkInput.value;
   const elem = createCard(newCard.name, newCard.link);
   cardList.prepend(elem);
-}
-
-function addCard (evt) {
-  evt.preventDefault();
-  renderCard();
-  closedPopup (popupAdd);
 }
 
 function removeCard (evt) {
@@ -142,6 +137,10 @@ closePopupPhoto.addEventListener('click', function() {
 
 formElementEdit.addEventListener('submit', setUserInfo);
 
-formElementAdd.addEventListener('submit', addCard);
+formElementAdd.addEventListener('submit', (evt)=>{
+  evt.preventDefault();
+  renderCard ();
+  closedPopup(popupAdd);
+});
 
 
