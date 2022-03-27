@@ -56,7 +56,7 @@ const cardList = document.querySelector('.elements__items');
 //-------------Попап--------------------//
 function openPopup (popup) {
   popup.classList.add('popup_opened');
-  
+
 }
 
 function closedPopup (popup) {
@@ -67,6 +67,7 @@ function setUserInfo (evt) {
   evt.preventDefault();
   profileTitle.textContent = nameInput.value;
   profileSubtitle.textContent = jobInput.value;
+
   closedPopup (popupEdit);
 }
 
@@ -99,7 +100,7 @@ function createCard (place, link) {
 
 //---------Добавление карточек-----------//
 function renderCard () {
-  
+
   const newCard = [];
   newCard.name = placeInput.value;
   newCard.link = linkInput.value;
@@ -119,6 +120,7 @@ openPopupEdit.addEventListener('click', function () {
   openPopup(popupEdit);
   nameInput.value = profileTitle.textContent;
   jobInput.value = profileSubtitle.textContent;
+
 });
 openPopupAdd.addEventListener('click', function () {
   formElementAdd.reset();
