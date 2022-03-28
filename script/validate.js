@@ -32,6 +32,7 @@ function handleFormInput(event) {
 function setCustomError(input) {
   const span = document.querySelector(`#${input.id}-error`);
   const validity = input.validity;
+  input.setCustomValidity('');
     if (!validity.valid){
     span.classList.add('popup__input-error');
   }

@@ -51,12 +51,14 @@ const profileSubtitle = document.querySelector('.profile__subtitle');
 const likeList = document.querySelector('.elements__like');
 const cardList = document.querySelector('.elements__items');
 
+const spanList = document.querySelectorAll('.popup__input-error');
+console.log(spanList);
+
 
 
 //-------------Попап--------------------//
 function openPopup (popup) {
   popup.classList.add('popup_opened');
-
 }
 
 function closedPopup (popup) {
@@ -113,11 +115,16 @@ function removeCard (evt) {
   element.remove();
 }
 
+function clearSpan() {
+  spanList.forEach(element => element.textContent='');
+}
+
 initialCards.forEach(card => cardList.prepend(createCard(card.name, card.link)));
 
 //-------Открытие Попапа--------------------//
 openPopupEdit.addEventListener('click', function () {
   openPopup(popupEdit);
+  clearSpan();
   nameInput.value = profileTitle.textContent;
   jobInput.value = profileSubtitle.textContent;
 
@@ -125,6 +132,7 @@ openPopupEdit.addEventListener('click', function () {
 openPopupAdd.addEventListener('click', function () {
   formElementAdd.reset();
   openPopup(popupAdd)
+  clearSpan();
 });
 //-------Закрытие Попапа--------------------//
 closePopupEdit.addEventListener('click', function() {
