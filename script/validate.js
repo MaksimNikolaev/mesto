@@ -1,69 +1,57 @@
-function enableValidation() {
-  const form = document.querySelector('.popup__form_data_edit');
-  //form.addEventListener('submit', handleFormSubmit);
-  form.addEventListener('input', handleFormInput);
-
-  const form2 = document.querySelector('.popup__form_data_add');
-  //form2.addEventListener('submit', handleFormSubmit);
-  form2.addEventListener('input', handleFormInput);
+function enableValidation(config) {
+  const form = document.querySelector(config.formSelector);
+  form.addEventListener('input', (event) => handleFormInput(event, config));
 }
 
-/* function handleFormSubmit(event) {
-  event.preventDefault();
-  const form = event.currentTarget;
-  const isValid = form.checkValidity();
-  if (isValid) {
-
-  }
-} */
-
-function handleFormInput(event) {
+function handleFormInput(event, config) {
   const form = event.currentTarget;
   const input = event.target;
-
-  //1. найти невалидные поля и  установить тексты ошибок
-  setCustomError(input);
-  //2. Показать ошибки пользователю
-  setFielldError(input);
-  //3. Деактивировать кнопку на невалидной форме.
-  setSubmitButtonState(form);
+  setCustomError(input, config);
+  setSubmitButtonState(form, config);
 }
 
-function setCustomError(input) {
+function setCustomError(input, config) {
   const span = document.querySelector(`#${input.id}-error`);
+  const inputError = document.querySelector(`#${input.id}`);
   const validity = input.validity;
   input.setCustomValidity('');
     if (!validity.valid){
-    span.classList.add('popup__input-error');
+    span.classList.add(config.errorClass);
+    inputError.classList.add(config.inputErrorClass);
+    span.textContent = input.validationMessage;
   }
   else{
-    span.classList.remove('popup__input-error');
+    span.classList.remove(config.errorClass);
+    inputError.classList.remove(config.inputErrorClass);
+    span.textContent = '';
   }
 
 }
 
-function setFielldError(input) {
-  const span = document.querySelector(`#${input.id}-error`);
-  span.textContent = input.validationMessage;
-}
-
-function setSubmitButtonState(form) {
-  const button = form.querySelector('.popup__button');
+function setSubmitButtonState(form, config) {
+  const button = form.querySelector(config.submitButtonSelector);
   const isValid = form.checkValidity();
   if (!isValid){
-    button.classList.add('popup__button_disabled');
+    button.classList.add(config.inactiveButtonClass);
     button.disabled = true;
   } else {
     button.disabled = false;
-    button.classList.remove('popup__button_disabled');
+    button.classList.remove(config.inactiveButtonClass);
   }
 }
 
 enableValidation({
-  formSelector: '.popup__form',
-  inputSelector: '.popup__input',
-  submitButtonSelector: '.popup__button',
+  formSelector: '.popup__form_data_edit',
   inactiveButtonClass: 'popup__button_disabled',
+  submitButtonSelector: '.popup__button',
+  errorClass: '.popup__input-error',
   inputErrorClass: 'popup__input_type_error',
-  errorClass: 'popup__error_visible'
+});
+
+enableValidation({
+  formSelector: '.popup__form_data_add',
+  inactiveButtonClass: 'popup__button_disabled',
+  submitButtonSelector: '.popup__button',
+  errorClass: '.popup__input-error',
+  inputErrorClass: 'popup__input_type_error',
 });

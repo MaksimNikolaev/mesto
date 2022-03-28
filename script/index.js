@@ -52,8 +52,6 @@ const likeList = document.querySelector('.elements__like');
 const cardList = document.querySelector('.elements__items');
 
 const spanList = document.querySelectorAll('.popup__input-error');
-console.log(spanList);
-
 
 
 //-------------Попап--------------------//
@@ -96,6 +94,7 @@ function createCard (place, link) {
   card.querySelector('.elements__trash').addEventListener('click', removeCard);  //слушатель удаления карточек
   elementPhoto.addEventListener('click',  ()=>{
     openPopupPhoto(place, link)
+    addListenerEsc(popupPhoto);
   });
   return card;
 }
@@ -127,12 +126,13 @@ openPopupEdit.addEventListener('click', function () {
   clearSpan();
   nameInput.value = profileTitle.textContent;
   jobInput.value = profileSubtitle.textContent;
-
+  addListenerEsc(popupEdit);
 });
 openPopupAdd.addEventListener('click', function () {
   formElementAdd.reset();
-  openPopup(popupAdd)
+  openPopup(popupAdd);
   clearSpan();
+  addListenerEsc(popupAdd);
 });
 //-------Закрытие Попапа--------------------//
 closePopupEdit.addEventListener('click', function() {
@@ -154,3 +154,20 @@ formElementAdd.addEventListener('submit', (evt)=>{
 });
 
 
+popupEdit.addEventListener('click', (event) => addListenerOverlay(event, popupEdit));
+popupAdd.addEventListener('click', (event) => addListenerOverlay(event, popupAdd));
+popupPhoto.addEventListener('click',(event) => addListenerOverlay(event, popupPhoto));
+
+function addListenerEsc (popup) {
+  document.addEventListener('keydown', function (event){
+    if (event.key === 'Escape') {
+      closedPopup(popup);
+    }
+  }); 
+}
+
+function addListenerOverlay(event, popup) {
+  if (event.target === event.currentTarget) {
+    closedPopup(popup);
+  }
+}
