@@ -21,11 +21,6 @@
   .popup__close {
     right: 0px;
     top: -38px;
-  }
-}
-
-@media (max-width: 320px) {
-  .popup__close {
     width: 20px;
     height: 20px;
   }
