@@ -71,22 +71,20 @@ function setUserInfo (evt) {
   evt.preventDefault();
   profileTitle.textContent = nameInput.value;
   profileSubtitle.textContent = jobInput.value;
-
   closedPopup (popupEdit);
 }
 
-function addLike (evt) {
+function addLike (evt) {//Добавление лайка
   evt.target.classList.toggle('elements__like_active');
 }
 
-function openPopupPhoto (place, link) {
+function openPopupPhoto (place, link) {//открытие попапа Фото
   photoFull.src = link;
   photoCaption.textContent = place;
   openPopup(popupPhoto);
 }
 
-//---------Рендеринг карточек-----------//
-function createCard (place, link) {
+function createCard (place, link) {//создание карточки и добавление слушателей
   const card = document
     .querySelector('.cards-template')
     .content.firstElementChild.cloneNode(true);
@@ -96,15 +94,12 @@ function createCard (place, link) {
   elementPhoto.alt = place;
   card.querySelector('.elements__like').addEventListener('click', addLike);  ////слушатель добавления лайков
   card.querySelector('.elements__trash').addEventListener('click', removeCard);  //слушатель удаления карточек
-  elementPhoto.addEventListener('click',  ()=>{
+  elementPhoto.addEventListener('click',  ()=>{//слушатель открытия попапа фотографий
     openPopupPhoto(place, link)
   });
   return card;
 }
-
-//---------Добавление карточек-----------//
-function renderCard () {
-
+function renderCard () {//рендер карточек
   const newCard = [];
   newCard.name = placeInput.value;
   newCard.link = linkInput.value;
@@ -112,15 +107,36 @@ function renderCard () {
   cardList.prepend(elem);
 }
 
-function removeCard (evt) {
+function removeCard (evt) {//удаление карточки
   const element = evt.currentTarget.closest('.elements__item');
   element.remove();
 }
 
-function clearError() {
+function clearError() {//Очистка ошибки и подчеркивание инпута.
   spanList.forEach(element => element.textContent='');
   inputList.forEach(element => element.classList.remove('popup__input_type_error'));
 }
+
+function disabledButton() {//Сделать кнопку неактивной
+  buttonList.forEach((element) => {
+    element.disabled = true;
+    element.classList.add('popup__button_disabled');
+  });
+}
+
+function closeByOverlay(event) {//Закрытие попапа по оверлею
+  const openedPopup = document.querySelector('.popup_opened');
+  if (event.target === event.currentTarget) {
+    closedPopup(openedPopup);
+  }
+}
+
+function closeByEsc(evt) {//закрытие попапа по кнопке Esc
+  if (evt.key === 'Escape') {
+    const openedPopup = document.querySelector('.popup_opened');
+    closedPopup(openedPopup); 
+  }
+} 
 
 initialCards.forEach(card => cardList.prepend(createCard(card.name, card.link)));
 
@@ -156,23 +172,3 @@ formPopupAddCard.addEventListener('submit', (evt)=>{
   disabledButton()
 });
 
-function disabledButton() {
-  buttonList.forEach((element) => {
-    element.disabled = true;
-    element.classList.add('popup__button_disabled');
-  });
-}
-
-function closeByOverlay(event) {
-  const openedPopup = document.querySelector('.popup_opened');
-  if (event.target === event.currentTarget) {
-    closedPopup(openedPopup);
-  }
-}
-
-function closeByEsc(evt) {
-  if (evt.key === 'Escape') {
-    const openedPopup = document.querySelector('.popup_opened');
-    closedPopup(openedPopup); 
-  }
-} 
