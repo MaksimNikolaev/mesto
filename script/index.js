@@ -52,7 +52,7 @@ const likeList = document.querySelector('.elements__like');
 const cardList = document.querySelector('.elements__items');
 
 const spanList = document.querySelectorAll('.popup__input-error');
-
+const inputList = document.querySelectorAll('.popup__input');
 
 //-------------Попап--------------------//
 function openPopup (popup) {
@@ -117,8 +117,9 @@ function removeCard (evt) {
   element.remove();
 }
 
-function clearSpan() {
+function clearError() {
   spanList.forEach(element => element.textContent='');
+  inputList.forEach(element => element.classList.remove('popup__input_type_error'));
 }
 
 initialCards.forEach(card => cardList.prepend(createCard(card.name, card.link)));
@@ -126,14 +127,14 @@ initialCards.forEach(card => cardList.prepend(createCard(card.name, card.link)))
 //-------Открытие Попапа--------------------//
 buttonEditProfile.addEventListener('click', function () {
   openPopup(popupEdit);
-  clearSpan();
+  clearError();
   nameInput.value = profileTitle.textContent;
   jobInput.value = profileSubtitle.textContent;
 });
 buttonAddCard.addEventListener('click', function () {
   formPopupAddCard.reset();
   openPopup(popupAdd);
-  clearSpan();
+  clearError();
 });
 //-------Закрытие Попапа--------------------//
 buttonClosePopupProfile.addEventListener('click', function() {
