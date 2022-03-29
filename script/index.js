@@ -57,12 +57,14 @@ const spanList = document.querySelectorAll('.popup__input-error');
 //-------------Попап--------------------//
 function openPopup (popup) {
   popup.classList.add('popup_opened');
-  document.addEventListener('keydown', closeByEsc)
+  document.addEventListener('keydown', closeByEsc);
+  popup.addEventListener('click', closeByOverlay);
 }
 
 function closedPopup (popup) {
   popup.classList.remove('popup_opened');
-  document.removeEventListener('keydown', closeByEsc)
+  document.removeEventListener('keydown', closeByEsc);
+  popup.removeEventListener('click', closeByOverlay);
 }
 
 function setUserInfo (evt) {
@@ -153,14 +155,15 @@ formPopupAddCard.addEventListener('submit', (evt)=>{
 });
 
 
-popupEdit.addEventListener('click', (event) => addListenerOverlay(event, popupEdit));
-popupAdd.addEventListener('click', (event) => addListenerOverlay(event, popupAdd));
-popupPhoto.addEventListener('click',(event) => addListenerOverlay(event, popupPhoto));
+//popupEdit.addEventListener('click', (event) => addListenerOverlay(event, popupEdit));
+//popupAdd.addEventListener('click', (event) => addListenerOverlay(event, popupAdd));
+//popupPhoto.addEventListener('click',(event) => addListenerOverlay(event, popupPhoto));
 
 
-function addListenerOverlay(event, popup) {
+function closeByOverlay(event) {
+  const openedPopup = document.querySelector('.popup_opened');
   if (event.target === event.currentTarget) {
-    closedPopup(popup);
+    closedPopup(openedPopup);
   }
 }
 
