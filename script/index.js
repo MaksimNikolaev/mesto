@@ -30,21 +30,21 @@ const popupEdit = document.querySelector('.popup_edit');
 const popupAdd = document.querySelector('.popup_add');
 const popupPhoto = document.querySelector('.popup_photo');
 
-const closePopupEdit = popupEdit.querySelector('.popup__close');
-const closePopupAdd = popupAdd.querySelector('.popup__close');
-const closePopupPhoto = popupPhoto.querySelector('.popup__close');
+const buttonClosePopupProfile = popupEdit.querySelector('.popup__close');
+const buttonClosePopupCard = popupAdd.querySelector('.popup__close');
+const buttonClosePopupPhoto = popupPhoto.querySelector('.popup__close');
 
 const photoFull = document.querySelector('.popup__photo');
 const photoCaption = document.querySelector('.popup__caption');
 
-const openPopupEdit = document.querySelector('.profile__edit-button');
-const openPopupAdd = document.querySelector('.profile__add-button');
-const formElementEdit = document.querySelector('.popup__form_data_edit');
-const formElementAdd = document.querySelector('.popup__form_data_add');
-const nameInput = formElementEdit.querySelector('.popup__input_data_name');
-const jobInput = formElementEdit.querySelector('.popup__input_data_job');
-const placeInput = formElementAdd.querySelector('.popup__input_data_place');
-const linkInput = formElementAdd.querySelector('.popup__input_data_link');
+const buttonEditProfile = document.querySelector('.profile__edit-button');
+const buttonAddCard = document.querySelector('.profile__add-button');
+const formPopupProfile = document.querySelector('.popup__form_data_edit');
+const formPopupAddCard = document.querySelector('.popup__form_data_add');
+const nameInput = formPopupProfile.querySelector('.popup__input_data_name');
+const jobInput = formPopupProfile.querySelector('.popup__input_data_job');
+const placeInput = formPopupAddCard.querySelector('.popup__input_data_place');
+const linkInput = formPopupAddCard.querySelector('.popup__input_data_link');
 const photo = document.querySelector('.elements__photo');
 const profileTitle = document.querySelector('.profile__title');
 const profileSubtitle = document.querySelector('.profile__subtitle');
@@ -121,33 +121,33 @@ function clearSpan() {
 initialCards.forEach(card => cardList.prepend(createCard(card.name, card.link)));
 
 //-------Открытие Попапа--------------------//
-openPopupEdit.addEventListener('click', function () {
+buttonEditProfile.addEventListener('click', function () {
   openPopup(popupEdit);
   clearSpan();
   nameInput.value = profileTitle.textContent;
   jobInput.value = profileSubtitle.textContent;
   addListenerEsc(popupEdit);
 });
-openPopupAdd.addEventListener('click', function () {
-  formElementAdd.reset();
+buttonAddCard.addEventListener('click', function () {
+  formPopupAddCard.reset();
   openPopup(popupAdd);
   clearSpan();
   addListenerEsc(popupAdd);
 });
 //-------Закрытие Попапа--------------------//
-closePopupEdit.addEventListener('click', function() {
+buttonClosePopupProfile.addEventListener('click', function() {
   closedPopup(popupEdit)
 });
-closePopupAdd.addEventListener('click', function() {
+buttonClosePopupCard.addEventListener('click', function() {
   closedPopup(popupAdd)
 });
-closePopupPhoto.addEventListener('click', function() {
+buttonClosePopupPhoto.addEventListener('click', function() {
   closedPopup(popupPhoto)
 });
 
-formElementEdit.addEventListener('submit', setUserInfo);
+formPopupProfile.addEventListener('submit', setUserInfo);
 
-formElementAdd.addEventListener('submit', (evt)=>{
+formPopupAddCard.addEventListener('submit', (evt)=>{
   evt.preventDefault();
   renderCard ();
   closedPopup(popupAdd);
