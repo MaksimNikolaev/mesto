@@ -171,4 +171,3 @@ formPopupAddCard.addEventListener('submit', (evt)=>{
   closedPopup(popupAdd);
   disabledButton()
 });
-
