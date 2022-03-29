@@ -36,7 +36,7 @@ const buttonClosePopupPhoto = popupPhoto.querySelector('.popup__close');
 
 const photoFull = document.querySelector('.popup__photo');
 const photoCaption = document.querySelector('.popup__caption');
-
+const buttonList = document.querySelectorAll('.popup__button');
 const buttonEditProfile = document.querySelector('.profile__edit-button');
 const buttonAddCard = document.querySelector('.profile__add-button');
 const formPopupProfile = document.querySelector('.popup__form_data_edit');
@@ -152,13 +152,15 @@ formPopupAddCard.addEventListener('submit', (evt)=>{
   evt.preventDefault();
   renderCard ();
   closedPopup(popupAdd);
+  disabledButton()
 });
 
-
-//popupEdit.addEventListener('click', (event) => addListenerOverlay(event, popupEdit));
-//popupAdd.addEventListener('click', (event) => addListenerOverlay(event, popupAdd));
-//popupPhoto.addEventListener('click',(event) => addListenerOverlay(event, popupPhoto));
-
+function disabledButton() {
+  buttonList.forEach((element) => {
+    element.disabled = true;
+    element.classList.add('popup__button_disabled');
+  });
+}
 
 function closeByOverlay(event) {
   const openedPopup = document.querySelector('.popup_opened');
