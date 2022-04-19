@@ -1,4 +1,5 @@
 import Card from './card.js'
+import FormValidator from './FormValidator.js'
 const initialCards = [
   {
     name: 'Архыз',
@@ -65,8 +66,7 @@ function closedPopup(popup) {
   popup.removeEventListener('click', closeByOverlay);
 }
 
-function setUserInfo(evt) {
-  evt.preventDefault();
+function setUserInfo() {
   profileTitle.textContent = nameInput.value;
   profileSubtitle.textContent = jobInput.value;
   closedPopup(popupEdit);
@@ -131,8 +131,7 @@ buttonClosePopupPhoto.addEventListener('click', function () {
 
 formPopupProfile.addEventListener('submit', setUserInfo);
 
-formPopupAddCard.addEventListener('submit', (evt) => {
-  evt.preventDefault();
+formPopupAddCard.addEventListener('submit', () => {
   renderCard();
   closedPopup(popupAdd);
   disabledButton()
@@ -143,3 +142,18 @@ initialCards.forEach(item => {
   const cardElement = card.generateCard();
   cardList.prepend(cardElement);
 });
+
+const data = {
+  formSelector: '.popup__form',
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.popup__button',
+  inactiveButtonClass: 'popup__button_disabled',
+  inputErrorClass: 'popup__input_type_error',
+  errorClass: '.popup__input-error',
+};
+
+const form = document.querySelectorAll('.popup__form');
+form.forEach(item => {
+  const form = new FormValidator(data, item);
+  form.enableValidation();
+})
