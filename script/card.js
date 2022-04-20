@@ -40,6 +40,7 @@ export default class Card {
   _openPopupPhoto() {//открытие попапа Фото
     photoFull.src = this._link;
     photoCaption.textContent = this._title;
+    photoFull.alt = this._title;
     openPopup(popupPhoto);
   }
 
