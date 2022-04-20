@@ -34,6 +34,7 @@ export default class Card {
 
   _removeCard() {//удаление карточки
     this._element.remove();
+    this._element = null;
   }
 
   _openPopupPhoto() {//открытие попапа Фото

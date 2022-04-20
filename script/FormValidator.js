@@ -6,6 +6,8 @@ export default class FormValidator {
     this._inputErrorClass = config.inputErrorClass;
     this._errorClass = config.errorClass;
     this._formSelector = formSelector;
+
+    this.buttonElement = this._formSelector.querySelector(this._submitButtonSelector);
   }
 
   _hasInvalidInput = (inputList) => {
@@ -14,15 +16,19 @@ export default class FormValidator {
     })
   }
 
-  _toggleButtonState = (inputList, buttonElement) => {
+  disabledButton = () => {
+    this.buttonElement.classList.add(this._inactiveButtonClass);
+    this.buttonElement.disabled = true;
+  }
+
+  _toggleButtonState = (inputList) => {
     if (this._hasInvalidInput(inputList)) {
       // сделай кнопку неактивной
-      buttonElement.classList.add(this._inactiveButtonClass);
-      buttonElement.disabled = true;
+      this.disabledButton();
     } else {
       // иначе сделай кнопку активной
-      buttonElement.classList.remove(this._inactiveButtonClass);
-      buttonElement.disabled = false;
+      this.buttonElement.classList.remove(this._inactiveButtonClass);
+      this.buttonElement.disabled = false;
     }
   }
 
@@ -40,6 +46,12 @@ export default class FormValidator {
     errorElement.textContent = '';//Очистка свойства textContent элемента span.
   };
 
+  resetErrors() {
+    this._formSelector.querySelectorAll(this._inputSelector).forEach((inputElement) => {
+      this._hideInputError(inputElement);
+    });
+  }
+
   _checkInputValidity = (inputElement) => {
     if (!inputElement.validity.valid) {
       this._showInputError(inputElement, inputElement.validationMessage);
@@ -50,12 +62,12 @@ export default class FormValidator {
 
   _setEventListeners() {
     const inputList = Array.from(this._formSelector.querySelectorAll(this._inputSelector));
-    const buttonElement = this._formSelector.querySelector(this._submitButtonSelector);
-    this._toggleButtonState(inputList, buttonElement);
+
+    this._toggleButtonState(inputList);
     inputList.forEach((inputElement) => {
       inputElement.addEventListener('input', () => {
         this._checkInputValidity(inputElement);
-        this._toggleButtonState(inputList, buttonElement);
+        this._toggleButtonState(inputList);
       })
     })
   }

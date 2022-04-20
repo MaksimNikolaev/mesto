@@ -1,31 +1,6 @@
 import Card from './card.js'
 import FormValidator from './FormValidator.js'
-const initialCards = [
-  {
-    name: 'Архыз',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-  },
-  {
-    name: 'Челябинская область',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-  },
-  {
-    name: 'Иваново',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-  },
-  {
-    name: 'Камчатка',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-  },
-  {
-    name: 'Холмогорский район',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-  },
-  {
-    name: 'Байкал',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-  }
-];
+import { initialCards } from './data.js'
 
 const popupEdit = document.querySelector('.popup_edit');
 const popupAdd = document.querySelector('.popup_add');
@@ -37,7 +12,6 @@ const buttonClosePopupPhoto = popupPhoto.querySelector('.popup__close');
 
 export const photoFull = document.querySelector('.popup__photo');
 export const photoCaption = document.querySelector('.popup__caption');
-const buttonList = document.querySelectorAll('.popup__button');
 const buttonEditProfile = document.querySelector('.profile__edit-button');
 const buttonAddCard = document.querySelector('.profile__add-button');
 const formPopupProfile = document.querySelector('.popup__form_data_edit');
@@ -49,9 +23,6 @@ const linkInput = formPopupAddCard.querySelector('.popup__input_data_link');
 const profileTitle = document.querySelector('.profile__title');
 const profileSubtitle = document.querySelector('.profile__subtitle');
 const cardList = document.querySelector('.elements__items');
-
-const spanList = document.querySelectorAll('.popup__input-error');
-const inputList = document.querySelectorAll('.popup__input');
 
 //-------------Попап--------------------//
 export function openPopup(popup) {
@@ -72,24 +43,9 @@ function setUserInfo() {
   closedPopup(popupEdit);
 }
 
-function renderCard() {//рендер карточек
-  const newCard = [];
-  newCard.name = placeInput.value;
-  newCard.link = linkInput.value;
-  const elem = new Card(newCard, '.cards-template').generateCard();
+function addNewCard(data) {//рендер карточек
+  const elem = new Card(data, '.cards-template').generateCard();
   cardList.prepend(elem);
-}
-
-function clearError() {//Очистка ошибки и подчеркивание инпута.
-  spanList.forEach(element => element.textContent = '');
-  inputList.forEach(element => element.classList.remove('popup__input_type_error'));
-}
-
-function disabledButton() {//Сделать кнопку неактивной
-  buttonList.forEach((element) => {
-    element.disabled = true;
-    element.classList.add('popup__button_disabled');
-  });
 }
 
 function closeByOverlay(event) {//Закрытие попапа по оверлею
@@ -109,14 +65,14 @@ function closeByEsc(evt) {//закрытие попапа по кнопке Esc
 //-------Открытие Попапа--------------------//
 buttonEditProfile.addEventListener('click', function () {
   openPopup(popupEdit);
-  clearError();
+  editFormValidator.resetErrors();
   nameInput.value = profileTitle.textContent;
   jobInput.value = profileSubtitle.textContent;
 });
 buttonAddCard.addEventListener('click', function () {
   formPopupAddCard.reset();
   openPopup(popupAdd);
-  clearError();
+  addFormValidator.resetErrors();
 });
 //-------Закрытие Попапа--------------------//
 buttonClosePopupProfile.addEventListener('click', function () {
@@ -132,9 +88,13 @@ buttonClosePopupPhoto.addEventListener('click', function () {
 formPopupProfile.addEventListener('submit', setUserInfo);
 
 formPopupAddCard.addEventListener('submit', () => {
-  renderCard();
+  const data = {
+    name: placeInput.value,
+    link: linkInput.value,
+  };
+  addNewCard(data);
   closedPopup(popupAdd);
-  disabledButton()
+  addFormValidator.disabledButton()
 });
 
 initialCards.forEach(item => {
@@ -149,11 +109,10 @@ const data = {
   submitButtonSelector: '.popup__button',
   inactiveButtonClass: 'popup__button_disabled',
   inputErrorClass: 'popup__input_type_error',
-  errorClass: '.popup__input-error',
+  errorClass: 'popup__input-error',
 };
 
-const form = document.querySelectorAll('.popup__form');
-form.forEach(item => {
-  const form = new FormValidator(data, item);
-  form.enableValidation();
-})
+const editFormValidator = new FormValidator(data, formPopupProfile);
+const addFormValidator = new FormValidator(data, formPopupAddCard);
+editFormValidator.enableValidation();
+addFormValidator.enableValidation();
