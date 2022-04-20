@@ -43,9 +43,13 @@ function setUserInfo() {
   closedPopup(popupEdit);
 }
 
-function addNewCard(data) {//рендер карточек
-  const elem = new Card(data, '.cards-template').generateCard();
-  cardList.prepend(elem);
+function renderCard(card) {
+  cardList.prepend(card);
+}
+
+function createCard(data) {//рендер карточек
+  const newCard = new Card(data, '.cards-template').generateCard();
+  return newCard;
 }
 
 function closeByOverlay(event) {//Закрытие попапа по оверлею
@@ -92,15 +96,15 @@ formPopupAddCard.addEventListener('submit', () => {
     name: placeInput.value,
     link: linkInput.value,
   };
-  addNewCard(data);
+  const newCard = createCard(data);
+  renderCard(newCard);
   closedPopup(popupAdd);
   addFormValidator.disabledButton()
 });
 
 initialCards.forEach(item => {
-  const card = new Card(item, '.cards-template');
-  const cardElement = card.generateCard();
-  cardList.prepend(cardElement);
+  const card = createCard(item);
+  renderCard(card);
 });
 
 const data = {
