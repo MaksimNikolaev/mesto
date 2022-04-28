@@ -54,7 +54,7 @@
       <button type="button" class="popup__close" aria-label="Закрыть попап"></button>
       <h2 class="popup__title">Новое место</h2>
       <form class="popup__form popup__form_data_add" method="POST" name="popupForm" novalidate>
-        <input type="text" id="place" class="popup__input popup__input_data_place" name="place" placeholder="Название" minlength="2" maxlength="30"  required>
+        <input type="text" id="place" class="popup__input popup__input_data_place" name="name" placeholder="Название" minlength="2" maxlength="30"  required>
         <span id="place-error"></span>
         <input type="url" id="link" class="popup__input popup__input_data_link" name="link" placeholder="Ссылка на картинку" required>
         <span id="link-error"></span>
@@ -85,6 +85,6 @@
         </div>
       </li>
   </template>
-<script type="module" src="./script/index.js"></script>
+<script type="module" src="./pages/index.js"></script>
 </body>
 </html>
