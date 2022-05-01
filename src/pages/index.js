@@ -5,6 +5,7 @@ import PopupWithForm from '../components/PopupWithForm.js'
 import UserInfo from '../components/UserInfo.js'
 import Section from '../components/Section.js'
 import { initialCards } from '../utils/data.js'
+import '../pages/index.css';
 
 export const popupPhoto = document.querySelector('.popup_photo');
 
@@ -16,11 +17,8 @@ const formPopupProfile = document.querySelector('.popup__form_data_edit');
 const formPopupAddCard = document.querySelector('.popup__form_data_add');
 export const nameInput = formPopupProfile.querySelector('.popup__input_data_name');
 export const jobInput = formPopupProfile.querySelector('.popup__input_data_job');
-const placeInput = formPopupAddCard.querySelector('.popup__input_data_place');
-const linkInput = formPopupAddCard.querySelector('.popup__input_data_link');
 export const profileTitle = document.querySelector('.profile__title');
 export const profileSubtitle = document.querySelector('.profile__subtitle');
-const cardList = document.querySelector('.elements__items');
 
 //рендер карточек
 function renderCard(card) {
