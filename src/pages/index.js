@@ -4,7 +4,7 @@ import PopupWithImage from '../components/PopupWithImage.js'
 import PopupWithForm from '../components/PopupWithForm.js'
 import UserInfo from '../components/UserInfo.js'
 import Section from '../components/Section.js'
-import { initialCards } from './data.js'
+import { initialCards } from '../utils/data.js'
 
 export const popupPhoto = document.querySelector('.popup_photo');
 
