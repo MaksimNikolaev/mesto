@@ -7,16 +7,12 @@ import Section from '../components/Section.js'
 import { initialCards } from '../utils/data.js'
 import '../pages/index.css';
 
-export const popupPhoto = document.querySelector('.popup_photo');
-
 export const photoFull = document.querySelector('.popup__photo');
 export const photoCaption = document.querySelector('.popup__caption');
 const buttonEditProfile = document.querySelector('.profile__edit-button');
 const buttonAddCard = document.querySelector('.profile__add-button');
 const formPopupProfile = document.querySelector('.popup__form_data_edit');
 const formPopupAddCard = document.querySelector('.popup__form_data_add');
-export const nameInput = formPopupProfile.querySelector('.popup__input_data_name');
-export const jobInput = formPopupProfile.querySelector('.popup__input_data_job');
 export const profileTitle = document.querySelector('.profile__title');
 export const profileSubtitle = document.querySelector('.profile__subtitle');
 
@@ -58,18 +54,6 @@ buttonAddCard.addEventListener('click', () => {
   addFormValidator.disabledButton();
 });
 
-
-
-/* formPopupAddCard.addEventListener('submit', () => {
-  const data = {
-    name: placeInput.value,
-    link: linkInput.value,
-  };
-  const newCard = createCard(data);
-  renderCard(newCard);
-  popupAddForm.close();
-  addFormValidator.disabledButton()
-}); */
 
 const data = {
   formSelector: '.popup__form',
