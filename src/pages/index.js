@@ -42,7 +42,7 @@ const handleEditProfileSubmit = (data) => {
 //-------Открытие Попапа редактирования профиля------//
 buttonEditProfile.addEventListener("click", function () {
   popupEditForm.open();
-  formValidators["editForm"].resetErrors();
+  formValidators["editForm"].resetValidation();
   //editFormValidator.resetErrors();
   const userData = userInfo.getUserInfo();
   nameInput.value = userData.name;
@@ -52,8 +52,8 @@ buttonEditProfile.addEventListener("click", function () {
 //-------Открытие Попапа добавления карточки--------//
 buttonAddCard.addEventListener("click", () => {
   popupAddForm.open();
-  formValidators["addForm"].resetErrors();
-  formValidators["addForm"].disabledButton();
+  formValidators["addForm"].resetValidation();
+  //formValidators["addForm"].disabledButton();
 });
 
 const formValidators = {};
