@@ -9,8 +9,6 @@ import "../pages/index.css";
 
 const buttonEditProfile = document.querySelector(".profile__edit-button");
 const buttonAddCard = document.querySelector(".profile__add-button");
-const formPopupProfile = document.querySelector(".popup__form_data_edit");
-const formPopupAddCard = document.querySelector(".popup__form_data_add");
 const nameInput = document.querySelector(".popup__input_data_name");
 const jobInput = document.querySelector(".popup__input_data_job");
 
@@ -56,12 +54,9 @@ buttonAddCard.addEventListener("click", () => {
   popupAddForm.open();
   formValidators["addForm"].resetErrors();
   formValidators["addForm"].disabledButton();
-  //addFormValidator.resetErrors();
-  //addFormValidator.disabledButton();
 });
 
 const formValidators = {};
-
 // Включение валидации
 const enableValidation = (config) => {
   const formList = Array.from(document.querySelectorAll(config.formSelector));
@@ -76,10 +71,7 @@ const enableValidation = (config) => {
 };
 
 enableValidation(config);
-/* const editFormValidator = new FormValidator(config, formPopupProfile);
-const addFormValidator = new FormValidator(config, formPopupAddCard);
-editFormValidator.enableValidation();
-addFormValidator.enableValidation(); */
+
 const imagePopup = new PopupWithImage(".popup_photo");
 imagePopup.setEventListeners();
 const popupAddForm = new PopupWithForm(".popup_add", handleAddCardSubmit);
