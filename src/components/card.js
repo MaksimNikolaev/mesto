@@ -9,8 +9,7 @@ export default class Card {
   _getTemplate() {
     const templateElement = document
       .querySelector(this._selector)
-      .content
-      .querySelector(".elements__item")
+      .content.querySelector(".elements__item")
       .cloneNode(true);
 
     return templateElement;
@@ -18,6 +17,7 @@ export default class Card {
 
   generateCard() {
     this._element = this._getTemplate();
+    this._elementLike = this._element.querySelector(".elements__like");
     this._cardTitle = this._element.querySelector(".elements__title");
     this._cardImage = this._element.querySelector(".elements__photo");
     this._cardTitle.textContent = this._title;
@@ -27,19 +27,22 @@ export default class Card {
     return this._element;
   }
 
-  _addLike() {//Добавление лайка
-    this._element.querySelector('.elements__like').classList.toggle('elements__like_active');
+  _addLike() {
+    //Добавление лайка
+    this._elementLike.classList.toggle("elements__like_active");
   }
 
-  _removeCard() {//удаление карточки
+  _removeCard() {
+    //удаление карточки
     this._element.remove();
     this._element = null;
   }
 
   _setEventListeners() {
-    this._element.querySelector('.elements__like').addEventListener('click', () => this._addLike());  ////слушатель добавления лайков
-    this._element.querySelector('.elements__trash').addEventListener('click', () => this._removeCard());  //слушатель удаления карточек
-    this._element.querySelector('.elements__photo').addEventListener('click', () => this._handleCardClick());//слушатель открытия попапа фотографий
+    this._elementLike.addEventListener("click", () => this._addLike()); ////слушатель добавления лайков
+    this._element
+      .querySelector(".elements__trash")
+      .addEventListener("click", () => this._removeCard()); //слушатель удаления карточек
+    this._cardImage.addEventListener("click", () => this._handleCardClick()); //слушатель открытия попапа фотографий
   }
-
 }

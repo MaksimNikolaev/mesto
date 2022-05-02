@@ -5,21 +5,22 @@ export default class FormValidator {
     this._inactiveButtonClass = config.inactiveButtonClass;
     this._inputErrorClass = config.inputErrorClass;
     this._errorClass = config.errorClass;
-    this._formSelector = formSelector;
+    this._form = formSelector;
 
-    this.buttonElement = this._formSelector.querySelector(this._submitButtonSelector);
+    this.buttonElement = this._form.querySelector(this._submitButtonSelector);
+    this._inputList = this._form.querySelectorAll(this._inputSelector);
   }
 
   _hasInvalidInput = (inputList) => {
     return inputList.some((inputElement) => {
       return !inputElement.validity.valid;
-    })
-  }
+    });
+  };
 
   disabledButton = () => {
     this.buttonElement.classList.add(this._inactiveButtonClass);
     this.buttonElement.disabled = true;
-  }
+  };
 
   _toggleButtonState = (inputList) => {
     if (this._hasInvalidInput(inputList)) {
@@ -30,24 +31,24 @@ export default class FormValidator {
       this.buttonElement.classList.remove(this._inactiveButtonClass);
       this.buttonElement.disabled = false;
     }
-  }
+  };
 
   _showInputError = (inputElement, errorMessage) => {
-    const errorElement = this._formSelector.querySelector(`#${inputElement.id}-error`);
-    inputElement.classList.add(this._inputErrorClass)// добавлен класс ошибки элементу input
-    errorElement.textContent = errorMessage;// Установлен errorMessage в качестве значения textContent для span.
-    errorElement.classList.add(this._errorClass);//Добавлен элементу span класс popup__input-error
+    const errorElement = this._form.querySelector(`#${inputElement.id}-error`);
+    inputElement.classList.add(this._inputErrorClass); // добавлен класс ошибки элементу input
+    errorElement.textContent = errorMessage; // Установлен errorMessage в качестве значения textContent для span.
+    errorElement.classList.add(this._errorClass); //Добавлен элементу span класс popup__input-error
   };
 
   _hideInputError = (inputElement) => {
-    const errorElement = this._formSelector.querySelector(`#${inputElement.id}-error`);
-    inputElement.classList.remove(this._inputErrorClass)// удаление класс ошибки с элемента input
-    errorElement.classList.remove(this._errorClass);// удаление у элемента span класс popup__input-error
-    errorElement.textContent = '';//Очистка свойства textContent элемента span.
+    const errorElement = this._form.querySelector(`#${inputElement.id}-error`);
+    inputElement.classList.remove(this._inputErrorClass); // удаление класс ошибки с элемента input
+    errorElement.classList.remove(this._errorClass); // удаление у элемента span класс popup__input-error
+    errorElement.textContent = ""; //Очистка свойства textContent элемента span.
   };
 
   resetErrors() {
-    this._formSelector.querySelectorAll(this._inputSelector).forEach((inputElement) => {
+    this._inputList.forEach((inputElement) => {
       this._hideInputError(inputElement);
     });
   }
@@ -61,23 +62,21 @@ export default class FormValidator {
   };
 
   _setEventListeners() {
-    const inputList = Array.from(this._formSelector.querySelectorAll(this._inputSelector));
+    const inputList = Array.from(this._inputList);
 
     this._toggleButtonState(inputList);
     inputList.forEach((inputElement) => {
-      inputElement.addEventListener('input', () => {
+      inputElement.addEventListener("input", () => {
         this._checkInputValidity(inputElement);
         this._toggleButtonState(inputList);
-      })
-    })
+      });
+    });
   }
 
   enableValidation() {
-    this._formSelector.addEventListener('submit', (evt) => {
+    this._form.addEventListener("submit", (evt) => {
       evt.preventDefault();
-    })
-    this._setEventListeners()
+    });
+    this._setEventListeners();
   }
 }
-
-

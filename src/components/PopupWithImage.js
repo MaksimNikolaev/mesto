@@ -1,11 +1,15 @@
-import { photoFull, photoCaption } from '../pages/index.js'
-import Popup from '../components/Popup.js'
+import Popup from "../components/Popup.js";
 
 export default class PopupWithImage extends Popup {
+  constructor(selectorPopup) {
+    super(selectorPopup);
+    this._photoFull = document.querySelector(".popup__photo");
+    this._photoCaption = document.querySelector(".popup__caption");
+  }
   open(title, link) {
-    photoFull.src = link;
-    photoCaption.textContent = title;
-    photoFull.alt = title;
+    this._photoFull.src = link;
+    this._photoCaption.textContent = title;
+    this._photoFull.alt = title;
     super.open();
   }
 }
