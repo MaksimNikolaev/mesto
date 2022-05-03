@@ -9,8 +9,6 @@ import "../pages/index.css";
 
 const buttonEditProfile = document.querySelector(".profile__edit-button");
 const buttonAddCard = document.querySelector(".profile__add-button");
-const nameInput = document.querySelector(".popup__input_data_name");
-const jobInput = document.querySelector(".popup__input_data_job");
 
 //рендер карточек
 function renderCard(card) {
@@ -34,7 +32,6 @@ function handleAddCardSubmit(item) {
 
 //Заполнение профиля
 const handleEditProfileSubmit = (data) => {
-  popupEditForm.setInputValues(data);
   userInfo.setUserInfo(data.name, data.job);
   popupEditForm.close();
 };
@@ -43,17 +40,14 @@ const handleEditProfileSubmit = (data) => {
 buttonEditProfile.addEventListener("click", function () {
   popupEditForm.open();
   formValidators["editForm"].resetValidation();
-  //editFormValidator.resetErrors();
   const userData = userInfo.getUserInfo();
-  nameInput.value = userData.name;
-  jobInput.value = userData.job;
+  popupEditForm.setInputValues(userData);
 });
 
 //-------Открытие Попапа добавления карточки--------//
 buttonAddCard.addEventListener("click", () => {
   popupAddForm.open();
   formValidators["addForm"].resetValidation();
-  //formValidators["addForm"].disabledButton();
 });
 
 const formValidators = {};

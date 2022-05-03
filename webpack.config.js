@@ -5,13 +5,14 @@ const path = require("path");
 module.exports = {
   entry: "./src/pages/index.js",
   output: {
-    filename: "main.[hash].js",//hash нужен чтобы фиксировались измеения, а не кэшировались браузером.
+    filename: "main.[hash].js", //hash нужен чтобы фиксировались измеения, а не кэшировались браузером.
     path: path.resolve(__dirname, "dist"),
     clean: true, //удаление файла js
   },
   plugins: [
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, "src", "index.html"),
+      cache: false,
     }),
     new MiniCssExtractPlugin(),
   ],
@@ -41,8 +42,8 @@ module.exports = {
       },
       {
         test: /\.js$/,
-        loader: 'babel-loader',
-        exclude: /node_modules/
+        loader: "babel-loader",
+        exclude: /node_modules/,
       },
     ],
   },
@@ -50,6 +51,9 @@ module.exports = {
     compress: true,
     port: 8081,
     open: true,
+    static: {
+      directory: path.join(__dirname, "./dist"),
+    },
   },
-  devtool: 'inline-source-map',//управление исходной картой js
+  devtool: "inline-source-map", //управление исходной картой js
 };
