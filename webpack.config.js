@@ -51,9 +51,7 @@ module.exports = {
     compress: true,
     port: 8081,
     open: true,
-    static: {
-      directory: path.join(__dirname, "./dist"),
-    },
+    static: path.resolve(__dirname, 'dist'),
   },
   devtool: "inline-source-map", //управление исходной картой js
 };
