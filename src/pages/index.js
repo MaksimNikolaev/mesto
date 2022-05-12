@@ -19,7 +19,7 @@ function renderCard(card) {
 //создание карточки
 function createCard(data) {
   const newCard = new Card(data, ".cards-template", () => {
-    imagePopup.open(data.name, data.link);
+    imagePopup.open(data);
   }).generateCard();
   return newCard;
 }
