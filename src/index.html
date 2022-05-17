@@ -65,14 +65,14 @@
           <span id="name-error"></span>
           <input
             type="text"
-            id="job"
+            id="about"
             class="popup__input popup__input_data_job"
-            name="job"
+            name="about"
             minlength="2"
             maxlength="200"
             required
           />
-          <span id="job-error"></span>
+          <span id="about-error"></span>
           <button type="submit" class="popup__button" disabled>
             Сохранить
           </button>
@@ -138,7 +138,10 @@
           </div>
           <div class="elements__info">
             <h2 class="elements__title"></h2>
-            <button type="button" class="elements__like"></button>
+            <div class="elements__group">
+              <button type="button" class="elements__like"></button>
+              <p class="elements__count-like"></p>
+            </div>            
           </div>
           <button type="button" class="elements__trash"></button>
         </div>

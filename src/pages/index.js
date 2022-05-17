@@ -33,7 +33,8 @@ function handleAddCardSubmit(item) {
 
 //Заполнение профиля
 const handleEditProfileSubmit = (data) => {
-  //userInfo.setUserInfo(data.name, data.job);
+  api.setUserInfo(data)
+  .then(res => userInfo.setUserInfo(res));
   popupEditForm.close();
 };
 
@@ -42,7 +43,7 @@ buttonEditProfile.addEventListener("click", function () {
   popupEditForm.open();
   formValidators["editForm"].resetValidation();
   const userData = userInfo.getUserInfo();
-  popupEditForm.setInputValues(userData);
+  popupEditForm.setInputValues(userData);  
 });
 
 //-------Открытие Попапа добавления карточки--------//
@@ -75,7 +76,7 @@ const popupEditForm = new PopupWithForm(".popup_edit", handleEditProfileSubmit);
 popupEditForm.setEventListeners();
 const userInfo = new UserInfo({
   nameSelector: ".profile__title",
-  jobSelector: ".profile__subtitle",
+  aboutSelector: ".profile__subtitle",
   avatarSelector: ".profile__avatar",
 });
 /* const section = new Section(
@@ -84,28 +85,24 @@ const userInfo = new UserInfo({
 );
 section.renderItems(); */
 
-const apiUser = new Api({
-  url: "https://nomoreparties.co/v1/cohort-41/users/me",
+
+const api = new Api({
+  url: "nomoreparties.co/v1/cohort-41/",
   headers: {
     authorization: "e43cf3d4-dce7-474b-8529-7a9891978e41",
     "content-type": "application/json",
   },
 });
 
-const user = apiUser.getInitialUser();
+//Получение профиля
+const user = api.getInitialUser();
 user.then((data) => {
-  userInfo.setUserInfo(data.name, data.about, data.avatar);
-});
+  userInfo.setUserInfo(data);
+})
+.catch((err) => console.log(err));
 
-const apiCards = new Api({
-  url: "https://mesto.nomoreparties.co/v1/cohort-41/cards ",
-  headers: {
-    authorization: "e43cf3d4-dce7-474b-8529-7a9891978e41",
-    "content-type": "application/json",
-  },
-});
-
-const cards = apiCards.getInitialCards();
+//получение карточек
+const cards = api.getInitialCards();
 cards.then((data) => {
   data.map((card) => {
     const section = new Section(
@@ -120,4 +117,5 @@ cards.then((data) => {
     );
     section.renderItems();
   });
-});
+})
+.catch((err) => console.log(err));
