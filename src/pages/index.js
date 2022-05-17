@@ -11,22 +11,31 @@ import "../pages/index.css";
 
 const buttonEditProfile = document.querySelector(".profile__edit-button");
 const buttonAddCard = document.querySelector(".profile__add-button");
+let userId;
 
-/* //рендер карточек
+//рендер карточек
 function renderCard(card) {
   const cardElement = createCard(card);
   section.addItem(cardElement);
-} */
+}
 
 //создание карточки
 function createCard(data) {
-  const newCard = new Card(data, ".cards-template", () => imagePopup.open(data), () => popupDeleteCard.open(data)).generateCard();
+  const newCard = new Card({
+    name: data.name,
+    link: data.link,
+    likes: data.likes,
+    _id: data._id,
+    userId: userId,
+    ownerId: data.owner._id}, ".cards-template", () => imagePopup.open(data), () => popupDeleteCard.open(data)).generateCard();
   return newCard;
 }
 
 //Добавление карточки
 function handleAddCardSubmit(item) {
-  renderCard(item);
+  api.addCard(item.name, item.link)
+  .then(res => renderCard(res));
+  /* renderCard(item); */
   popupAddForm.close();
 }
 
@@ -98,6 +107,7 @@ const api = new Api({
 //Получение профиля
 const user = api.getInitialUser();
 user.then((data) => {
+  userId=data._id;
   userInfo.setUserInfo(data);
 })
 .catch((err) => console.log(err));
@@ -106,17 +116,16 @@ user.then((data) => {
 const cards = api.getInitialCards();
 cards.then((data) => {
   data.map((card) => {
-    const section = new Section(
-      {
-        items: [card],
-        renderer: (card) => {
-          const cardElement = createCard(card);
-          section.addItem(cardElement);
-        },
-      },
-      ".elements__items"
-    );
-    section.renderItems();
+    renderCard(card);
   });
 })
 .catch((err) => console.log(err));
+
+const section = new Section(
+  {
+    items: [],
+    renderer: renderCard
+  },
+  ".elements__items"
+);
+section.renderItems();

@@ -32,4 +32,16 @@ export default class Api {
       })})
     .then(this._errorHandler)
   }
+
+  addCard (name, link) {
+        return fetch(`https://mesto.${this._url}cards`, {
+            method: "POST",
+            headers: this._headers,
+            body: JSON.stringify({
+                name: name,
+                link: link,
+            }),
+        })
+            .then(this._errorHandler)
+    }
 }
