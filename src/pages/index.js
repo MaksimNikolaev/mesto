@@ -1,5 +1,6 @@
 import Card from "../components/Card.js";
 import FormValidator from "../components/FormValidator.js";
+import Popup from "../components/Popup.js";
 import PopupWithImage from "../components/PopupWithImage.js";
 import PopupWithForm from "../components/PopupWithForm.js";
 import UserInfo from "../components/UserInfo.js";
@@ -19,9 +20,7 @@ function renderCard(card) {
 
 //создание карточки
 function createCard(data) {
-  const newCard = new Card(data, ".cards-template", () => {
-    imagePopup.open(data);
-  }).generateCard();
+  const newCard = new Card(data, ".cards-template", () => imagePopup.open(data), () => popupDeleteCard.open(data)).generateCard();
   return newCard;
 }
 
@@ -74,6 +73,8 @@ const popupAddForm = new PopupWithForm(".popup_add", handleAddCardSubmit);
 popupAddForm.setEventListeners();
 const popupEditForm = new PopupWithForm(".popup_edit", handleEditProfileSubmit);
 popupEditForm.setEventListeners();
+const popupDeleteCard = new Popup('.popup_deleteCard');
+popupDeleteCard.setEventListeners();
 const userInfo = new UserInfo({
   nameSelector: ".profile__title",
   aboutSelector: ".profile__subtitle",
