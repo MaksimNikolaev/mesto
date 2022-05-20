@@ -1,6 +1,6 @@
 import Card from "../components/Card.js";
 import FormValidator from "../components/FormValidator.js";
-import Popup from "../components/Popup.js";
+import PopupWithSubmit from "../components/PopupWithSubmit.js";
 import PopupWithImage from "../components/PopupWithImage.js";
 import PopupWithForm from "../components/PopupWithForm.js";
 import UserInfo from "../components/UserInfo.js";
@@ -21,14 +21,18 @@ function renderCard(card) {
 
 //создание карточки
 function createCard(data) {
-  const newCard = new Card({
+  const card = new Card({
     name: data.name,
     link: data.link,
     likes: data.likes,
     _id: data._id,
     userId: userId,
-    ownerId: data.owner._id}, ".cards-template", () => imagePopup.open(data), () => popupDeleteCard.open(data)).generateCard();
-  return newCard;
+    ownerId: data.owner._id}, ".cards-template", () => imagePopup.open(data), () => {
+      popupDeleteCard.open(card);           
+    })/* .generateCard() */;
+    const cardElement = card.generateCard();
+    return cardElement;
+  /* return card; */
 }
 
 //Добавление карточки
@@ -60,6 +64,8 @@ buttonAddCard.addEventListener("click", () => {
   formValidators["addForm"].resetValidation();
 });
 
+
+
 const formValidators = {};
 // Включение валидации
 const enableValidation = (config) => {
@@ -82,8 +88,20 @@ const popupAddForm = new PopupWithForm(".popup_add", handleAddCardSubmit);
 popupAddForm.setEventListeners();
 const popupEditForm = new PopupWithForm(".popup_edit", handleEditProfileSubmit);
 popupEditForm.setEventListeners();
-const popupDeleteCard = new Popup('.popup_deleteCard');
+const popupDeleteCard = new PopupWithSubmit('.popup_deleteCard', {card: (data) => 
+  api.removeCard(data._cardId)
+  .then(() => {
+    data.removeCard();
+    popupDeleteCard.close();
+})
+  .catch((err) => {
+    console.log(`Ошибка: ${err}`);
+  })
+});
+    
 popupDeleteCard.setEventListeners();
+
+
 const userInfo = new UserInfo({
   nameSelector: ".profile__title",
   aboutSelector: ".profile__subtitle",
@@ -115,7 +133,7 @@ user.then((data) => {
 //получение карточек
 const cards = api.getInitialCards();
 cards.then((data) => {
-  data.map((card) => {
+  data.reverse().map((card) => {
     renderCard(card);
   });
 })

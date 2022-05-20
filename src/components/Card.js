@@ -38,8 +38,14 @@ export default class Card {
 
   _isOwner() {
     if (this._userID !== this._ownerID) {
-      this._trash.style.display = 'none'
+      /* this._trash.style.display = 'none' */
+      this._removeIconTrash(this._trash);
     }
+  }
+
+  _removeIconTrash(element) {
+    element.remove();
+    element = null;
   }
 
   _addLike() {
@@ -47,16 +53,15 @@ export default class Card {
     this._elementLike.classList.toggle("elements__like_active");
   }
 
-  _removeCard() {
+  removeCard() {
     //удаление карточки
-    this._handleRemoveCard();
     this._element.remove();
     this._element = null;
   }
 
   _setEventListeners() {
     this._elementLike.addEventListener("click", () => this._addLike()); ////слушатель добавления лайков
-    this._trash.addEventListener("click", () => this._removeCard()); //слушатель удаления карточек
+    this._trash.addEventListener("click", () => this._handleRemoveCard()); //слушатель удаления карточек
     this._cardImage.addEventListener("click", () => this._handleCardClick()); //слушатель открытия попапа фотографий
   }
 }

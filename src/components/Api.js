@@ -44,4 +44,12 @@ export default class Api {
         })
             .then(this._errorHandler)
     }
+
+  removeCard(id) {
+    return fetch(`https://mesto.${this._url}cards/${id}`, {
+            method: "DELETE",
+            headers: this._headers,
+            })
+            .then(this._errorHandler)
+  }
 }

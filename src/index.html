@@ -138,7 +138,14 @@
           aria-label="Закрыть попап"
         ></button>
         <h2 class="popup__title">Вы уверены?</h2>
-        <button type="submit" class="popup__button">Да</button>
+        <form
+          class="popup__form popup__form_data_remove"
+          method="POST"
+          name="addForm"
+          novalidate
+        >
+          <button type="submit" class="popup__button popup__button_remove">Да</button>
+        </form>        
       </div>
     </div>
     <template class="cards-template">
