@@ -21,41 +21,60 @@ function renderCard(card) {
 
 //создание карточки
 function createCard(data) {
-  const card = new Card({
-    name: data.name,
-    link: data.link,
-    likes: data.likes,
-    _id: data._id,
-    userId: userId,
-    ownerId: data.owner._id}, ".cards-template", () => imagePopup.open(data), () => popupDeleteCard.open(card), () => {
-      api.addLike(data._id)
-      .then((res) => {
-        card.setCountLike(res);
-        card.addLike();
-      })
-      .catch((err) => {
-        console.log(`Ошибка: ${err}`);
-      });
-    });
-    const cardElement = card.generateCard();
-    return cardElement;
+  const card = new Card(
+    {
+      name: data.name,
+      link: data.link,
+      likes: data.likes,
+      _id: data._id,
+      userId: userId,
+      ownerId: data.owner._id,
+    },
+    ".cards-template",
+    () => imagePopup.open(data),
+    () => popupDeleteCard.open(card),
+    () => {
+      api
+        .addLike(data._id)
+        .then((res) => {
+          card.setCountLike(res);
+          card.addLike();
+        })
+        .catch((err) => {
+          console.log(`Ошибка: ${err}`);
+        });
+    },
+    () => {
+      api
+        .removeLike(data._id)
+        .then((res) => {
+          card.setCountLike(res);
+          card.removeLike();
+        })
+        .catch((err) => {
+          console.log(`Ошибка: ${err}`);
+        });
+    }
+  );
+  const cardElement = card.generateCard();
+  return cardElement;
 }
 
 //Добавление карточки
 function handleAddCardSubmit(item) {
-  api.addCard(item.name, item.link)
-  .then(res => renderCard(res))
-  .catch((err) => {
-    console.log(`Ошибка: ${err}`);
-  });
+  api
+    .addCard(item.name, item.link)
+    .then((res) => renderCard(res))
+    .catch((err) => {
+      console.log(`Ошибка: ${err}`);
+    });
   /* renderCard(item); */
   popupAddForm.close();
 }
 
 //Заполнение профиля
 const handleEditProfileSubmit = (data) => {
-  api.setUserInfo(data)
-  .then(res => userInfo.setUserInfo(res));
+  api.setUserInfo(data).then((res) => userInfo.setUserInfo(res));
   popupEditForm.close();
 };
 
@@ -64,7 +83,7 @@ buttonEditProfile.addEventListener("click", function () {
   popupEditForm.open();
   formValidators["editForm"].resetValidation();
   const userData = userInfo.getUserInfo();
-  popupEditForm.setInputValues(userData);  
+  popupEditForm.setInputValues(userData);
 });
 
 //-------Открытие Попапа добавления карточки--------//
@@ -72,8 +91,6 @@ buttonAddCard.addEventListener("click", () => {
   popupAddForm.open();
   formValidators["addForm"].resetValidation();
 });
-
-
 
 const formValidators = {};
 // Включение валидации
@@ -97,19 +114,20 @@ const popupAddForm = new PopupWithForm(".popup_add", handleAddCardSubmit);
 popupAddForm.setEventListeners();
 const popupEditForm = new PopupWithForm(".popup_edit", handleEditProfileSubmit);
 popupEditForm.setEventListeners();
-const popupDeleteCard = new PopupWithSubmit('.popup_deleteCard', {card: (data) => 
-  api.removeCard(data._cardId)
-  .then(() => {
-    data.removeCard();
-    popupDeleteCard.close();
-})
-  .catch((err) => {
-    console.log(`Ошибка: ${err}`);
-  })
+const popupDeleteCard = new PopupWithSubmit(".popup_deleteCard", {
+  card: (data) =>
+    api
+      .removeCard(data._cardId)
+      .then(() => {
+        data.removeCard();
+        popupDeleteCard.close();
+      })
+      .catch((err) => {
+        console.log(`Ошибка: ${err}`);
+      }),
 });
-    
-popupDeleteCard.setEventListeners();
 
+popupDeleteCard.setEventListeners();
 
 const userInfo = new UserInfo({
   nameSelector: ".profile__title",
@@ -122,7 +140,6 @@ const userInfo = new UserInfo({
 );
 section.renderItems(); */
 
-
 const api = new Api({
   url: "nomoreparties.co/v1/cohort-41/",
   headers: {
@@ -133,25 +150,27 @@ const api = new Api({
 
 //Получение профиля
 const user = api.getInitialUser();
-user.then((data) => {
-  userId=data._id;
-  userInfo.setUserInfo(data);
-})
-.catch((err) => console.log(err));
+user
+  .then((data) => {
+    userId = data._id;
+    userInfo.setUserInfo(data);
+  })
+  .catch((err) => console.log(err));
 
 //получение карточек
 const cards = api.getInitialCards();
-cards.then((data) => {
-  data.reverse().map((card) => {
-    renderCard(card);
-  });
-})
-.catch((err) => console.log(err));
+cards
+  .then((data) => {
+    data.reverse().map((card) => {
+      renderCard(card);
+    });
+  })
+  .catch((err) => console.log(err));
 
 const section = new Section(
   {
     items: [],
-    renderer: renderCard
+    renderer: renderCard,
   },
   ".elements__items"
 );
