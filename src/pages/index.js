@@ -27,18 +27,27 @@ function createCard(data) {
     likes: data.likes,
     _id: data._id,
     userId: userId,
-    ownerId: data.owner._id}, ".cards-template", () => imagePopup.open(data), () => {
-      popupDeleteCard.open(card);           
-    })/* .generateCard() */;
+    ownerId: data.owner._id}, ".cards-template", () => imagePopup.open(data), () => popupDeleteCard.open(card), () => {
+      api.addLike(data._id)
+      .then((res) => {
+        card.setCountLike(res);
+        card.addLike();
+      })
+      .catch((err) => {
+        console.log(`Ошибка: ${err}`);
+      });
+    });
     const cardElement = card.generateCard();
     return cardElement;
-  /* return card; */
 }
 
 //Добавление карточки
 function handleAddCardSubmit(item) {
   api.addCard(item.name, item.link)
-  .then(res => renderCard(res));
+  .then(res => renderCard(res))
+  .catch((err) => {
+    console.log(`Ошибка: ${err}`);
+  });
   /* renderCard(item); */
   popupAddForm.close();
 }

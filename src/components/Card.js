@@ -1,5 +1,5 @@
 export default class Card {
-  constructor(data, selector, handleCardClick, handleRemoveCard) {
+  constructor(data, selector, handleCardClick, handleRemoveCard, handleLikeClick) {
     this._title = data.name;
     this._link = data.link;
     this._likes = data.likes;
@@ -8,7 +8,8 @@ export default class Card {
     this._ownerID = data.ownerId;
     this._selector = selector;
     this._handleCardClick = handleCardClick;
-    this._handleRemoveCard =handleRemoveCard;
+    this._handleRemoveCard = handleRemoveCard;
+    this._handleLikeClick = handleLikeClick;
   }
 
   _getTemplate() {
@@ -48,9 +49,13 @@ export default class Card {
     element = null;
   }
 
-  _addLike() {
+  addLike() {
     //Добавление лайка
     this._elementLike.classList.toggle("elements__like_active");
+  }
+
+  setCountLike(data) {
+    this._elementCountLike.textContentt = String(data.likes.length);
   }
 
   removeCard() {
@@ -60,7 +65,7 @@ export default class Card {
   }
 
   _setEventListeners() {
-    this._elementLike.addEventListener("click", () => this._addLike()); ////слушатель добавления лайков
+    this._elementLike.addEventListener("click", () => this._handleLikeClick()); ////слушатель добавления лайков
     this._trash.addEventListener("click", () => this._handleRemoveCard()); //слушатель удаления карточек
     this._cardImage.addEventListener("click", () => this._handleCardClick()); //слушатель открытия попапа фотографий
   }
