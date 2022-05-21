@@ -1,5 +1,11 @@
 export default class Card {
-  constructor(data, selector, handleCardClick, handleRemoveCard, handleLikeClick) {
+  constructor(
+    data,
+    selector,
+    handleCardClick,
+    handleRemoveCard,
+    handleLikeClick
+  ) {
     this._title = data.name;
     this._link = data.link;
     this._likes = data.likes;
@@ -24,7 +30,9 @@ export default class Card {
   generateCard() {
     this._element = this._getTemplate();
     this._elementLike = this._element.querySelector(".elements__like");
-    this._elementCountLike = this._element.querySelector(".elements__count-like");
+    this._elementCountLike = this._element.querySelector(
+      ".elements__count-like"
+    );
     this._cardTitle = this._element.querySelector(".elements__title");
     this._cardImage = this._element.querySelector(".elements__photo");
     this._trash = this._element.querySelector(".elements__trash");
@@ -33,8 +41,9 @@ export default class Card {
     this._cardImage.src = this._link;
     this._cardImage.alt = this._title;
     this._isOwner();
+    this._isLiked();
     this._setEventListeners();
-    return this._element;    
+    return this._element;
   }
 
   _isOwner() {
@@ -44,18 +53,31 @@ export default class Card {
     }
   }
 
+  _isLiked() {
+    this._likes.forEach((user) => {
+      if (user._id === this._userID) {
+        this.addLike();
+      } else {
+        this.removeLike();
+      }
+    });
+  }
+
   _removeIconTrash(element) {
     element.remove();
     element = null;
   }
 
   addLike() {
-    //Добавление лайка
-    this._elementLike.classList.toggle("elements__like_active");
+    this._elementLike.classList.add("elements__like_active");
+  }
+
+  removeLike() {
+    this._elementLike.classList.remove("elements__like_active");
   }
 
   setCountLike(data) {
-    this._elementCountLike.textContentt = String(data.likes.length);
+    this._elementCountLike.textContent = String(data.likes.length);
   }
 
   removeCard() {
