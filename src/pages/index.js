@@ -1,6 +1,6 @@
 import Card from "../components/Card.js";
 import FormValidator from "../components/FormValidator.js";
-import PopupWithSubmit from "../components/PopupWithSubmit.js";
+import PopupWithConfirmation from "../components/PopupWithConfirmation..js";
 import PopupWithImage from "../components/PopupWithImage.js";
 import PopupWithForm from "../components/PopupWithForm.js";
 import UserInfo from "../components/UserInfo.js";
@@ -157,7 +157,7 @@ const popupUpdateAvatar = new PopupWithForm(
   handleUpdateAvatarSubmit
 );
 popupUpdateAvatar.setEventListeners();
-const popupDeleteCard = new PopupWithSubmit(".popup_deleteCard", {
+const popupDeleteCard = new PopupWithConfirmation(".popup_deleteCard", {
   card: (data) =>
     api
       .removeCard(data._cardId)
