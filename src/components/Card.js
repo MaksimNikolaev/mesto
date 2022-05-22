@@ -50,7 +50,6 @@ export default class Card {
 
   _isOwner() {
     if (this._userID !== this._ownerID) {
-      /* this._trash.style.display = 'none' */
       this._removeIconTrash(this._trash);
     }
   }
@@ -89,7 +88,7 @@ export default class Card {
   }
 
   _setEventListeners() {
-    this._elementLike.addEventListener("click", () => {
+    this._elementLike.addEventListener("click", () => {//слушатель добавления/удаления лайков
       if (this._elementLike.classList.contains("elements__like_active")) {
         this._handleLikeClickRemove();
       } else {

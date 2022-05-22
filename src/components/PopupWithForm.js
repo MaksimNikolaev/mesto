@@ -5,6 +5,8 @@ export default class PopupWithForm extends Popup {
     this._callBackSubmitForm = callBackSubmitForm;
     this._form = this._popup.querySelector(".popup__form");
     this._inputList = this._form.querySelectorAll(".popup__input");
+    this._submitButton = this._form.querySelector(".popup__button");
+    this._oldValueSubmitButton = this._submitButton.textContent;
   }
 
   _getInputValues() {
@@ -18,6 +20,14 @@ export default class PopupWithForm extends Popup {
       // тут вставляем в `value` инпута данные из объекта по атрибуту `name` этого инпута
       input.value = data[input.name];
     });
+  }
+
+  renderLoading(isLoading, text) {
+    if (isLoading) {
+      this._submitButton.textContent = text;
+    } else {
+      this._submitButton.textContent = this._oldValueSubmitButton;
+    }
   }
 
   setEventListeners() {

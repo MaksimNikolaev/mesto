@@ -5,7 +5,7 @@ import PopupWithImage from "../components/PopupWithImage.js";
 import PopupWithForm from "../components/PopupWithForm.js";
 import UserInfo from "../components/UserInfo.js";
 import Section from "../components/Section.js";
-import { initialCards, config } from "../utils/constants.js";
+import { config } from "../utils/constants.js";
 import Api from "../components/Api.js";
 import "../pages/index.css";
 
@@ -63,24 +63,37 @@ function createCard(data) {
 
 //Добавление карточки
 function handleAddCardSubmit(item) {
+  popupAddForm.renderLoading(true, "Создание...");
   api
     .addCard(item.name, item.link)
     .then((res) => renderCard(res))
     .catch((err) => {
       console.log(`Ошибка: ${err}`);
+    })
+    .finally(() => {
+      popupAddForm.renderLoading(false);
     });
-  /* renderCard(item); */
   popupAddForm.close();
 }
 
 //Заполнение профиля
 const handleEditProfileSubmit = (data) => {
-  api.setUserInfo(data).then((res) => userInfo.setUserInfo(res));
+  popupEditForm.renderLoading(true, "Сохранение...");
+  api
+    .setUserInfo(data)
+    .then((res) => userInfo.setUserInfo(res))
+    .catch((err) => {
+      console.log(`Ошибка: ${err}`);
+    })
+    .finally(() => {
+      popupEditForm.renderLoading(false);
+    });
   popupEditForm.close();
 };
 
 //обновление Аватара
 const handleUpdateAvatarSubmit = (data) => {
+  popupUpdateAvatar.renderLoading(true, "Сохранение...");
   api
     .updateAvatar(data)
     .then((res) => {
@@ -89,6 +102,9 @@ const handleUpdateAvatarSubmit = (data) => {
     })
     .catch((err) => {
       console.log(`Ошибка: ${err}`);
+    })
+    .finally(() => {
+      popupUpdateAvatar.renderLoading(false);
     });
 };
 
@@ -161,11 +177,15 @@ const userInfo = new UserInfo({
   aboutSelector: ".profile__subtitle",
   avatarSelector: ".profile__avatar",
 });
-/* const section = new Section(
-  { items: initialCards, renderer: renderCard },
+
+const section = new Section(
+  {
+    items: [],
+    renderer: renderCard,
+  },
   ".elements__items"
 );
-section.renderItems(); */
+section.renderItems();
 
 const api = new Api({
   url: "nomoreparties.co/v1/cohort-41/",
@@ -193,12 +213,3 @@ cards
     });
   })
   .catch((err) => console.log(err));
-
-const section = new Section(
-  {
-    items: [],
-    renderer: renderCard,
-  },
-  ".elements__items"
-);
-section.renderItems();
