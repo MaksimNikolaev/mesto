@@ -5,7 +5,7 @@ export default class Card {
     handleCardClick,
     handleRemoveCard,
     handleLikeClickAdd,
-    handleLikeClickRemove,
+    handleLikeClickRemove
   ) {
     this._title = data.name;
     this._link = data.link;
@@ -90,13 +90,13 @@ export default class Card {
 
   _setEventListeners() {
     this._elementLike.addEventListener("click", () => {
-      if (this._elementLike.classList.contains('elements__like_active')){
+      if (this._elementLike.classList.contains("elements__like_active")) {
         this._handleLikeClickRemove();
       } else {
         this._handleLikeClickAdd();
       }
     });
     this._trash.addEventListener("click", () => this._handleRemoveCard()); //слушатель удаления карточек
-    this._cardImage.addEventListener("click", () => this._handleAddClick()); //слушатель открытия попапа фотографий
+    this._cardImage.addEventListener("click", () => this._handleCardClick()); //слушатель открытия попапа фотографий
   }
 }

@@ -17,17 +17,16 @@
       </header>
       <main class="content">
         <section class="profile">
-          <img
-            src="<%=require('./images/profile/Zhak.jpg')%>"
-            alt="Жак-Ив Кусто"
-            class="profile__avatar"
-          />
+          <button class="profile__button">
+            <img class="profile__avatar" />
+          </button>
+
           <div class="profile__info">
             <div class="profile__main">
-              <h1 class="profile__title">Жак-Ив Кусто</h1>
+              <h1 class="profile__title"></h1>
               <button type="button" class="profile__edit-button"></button>
             </div>
-            <p class="profile__subtitle">Исследователь океана</p>
+            <p class="profile__subtitle"></p>
           </div>
           <button type="button" class="profile__add-button"></button>
         </section>
@@ -73,6 +72,34 @@
             required
           />
           <span id="about-error"></span>
+          <button type="submit" class="popup__button" disabled>
+            Сохранить
+          </button>
+        </form>
+      </div>
+    </div>
+    <div class="popup popup_updateAvatar">
+      <div class="popup__content">
+        <button
+          type="button"
+          class="popup__close"
+          aria-label="Закрыть попап"
+        ></button>
+        <h2 class="popup__title">Обновить аватар</h2>
+        <form
+          class="popup__form popup__form_data_updateAvatar"
+          method="POST"
+          name="updateAvatarForm"
+          novalidate
+        >
+          <input
+            type="url"
+            id="avatar"
+            class="popup__input popup__input_data_avatar"
+            name="avatar"
+            required
+          />
+          <span id="avatar-error"></span>
           <button type="submit" class="popup__button" disabled>
             Сохранить
           </button>
@@ -141,11 +168,13 @@
         <form
           class="popup__form popup__form_data_remove"
           method="POST"
-          name="addForm"
+          name="removeCardForm"
           novalidate
         >
-          <button type="submit" class="popup__button popup__button_remove">Да</button>
-        </form>        
+          <button type="submit" class="popup__button popup__button_remove">
+            Да
+          </button>
+        </form>
       </div>
     </div>
     <template class="cards-template">
@@ -159,7 +188,7 @@
             <div class="elements__group">
               <button type="button" class="elements__like"></button>
               <p class="elements__count-like"></p>
-            </div>            
+            </div>
           </div>
           <button type="button" class="elements__trash"></button>
         </div>

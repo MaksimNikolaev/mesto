@@ -11,6 +11,7 @@ import "../pages/index.css";
 
 const buttonEditProfile = document.querySelector(".profile__edit-button");
 const buttonAddCard = document.querySelector(".profile__add-button");
+const buttonUpdateAvatar = document.querySelector(".profile__button");
 let userId;
 
 //рендер карточек
@@ -78,12 +79,33 @@ const handleEditProfileSubmit = (data) => {
   popupEditForm.close();
 };
 
+//обновление Аватара
+const handleUpdateAvatarSubmit = (data) => {
+  api
+    .updateAvatar(data)
+    .then((res) => {
+      userInfo.setUserAvatar(res);
+      popupUpdateAvatar.close();
+    })
+    .catch((err) => {
+      console.log(`Ошибка: ${err}`);
+    });
+};
+
 //-------Открытие Попапа редактирования профиля------//
 buttonEditProfile.addEventListener("click", function () {
   popupEditForm.open();
   formValidators["editForm"].resetValidation();
   const userData = userInfo.getUserInfo();
   popupEditForm.setInputValues(userData);
+});
+
+//-------Открытие Попапа обновления аватара------//
+buttonUpdateAvatar.addEventListener("click", function () {
+  popupUpdateAvatar.open();
+  formValidators["updateAvatarForm"].resetValidation();
+  const userData = userInfo.getUserInfo();
+  popupUpdateAvatar.setInputValues(userData);
 });
 
 //-------Открытие Попапа добавления карточки--------//
@@ -114,6 +136,11 @@ const popupAddForm = new PopupWithForm(".popup_add", handleAddCardSubmit);
 popupAddForm.setEventListeners();
 const popupEditForm = new PopupWithForm(".popup_edit", handleEditProfileSubmit);
 popupEditForm.setEventListeners();
+const popupUpdateAvatar = new PopupWithForm(
+  ".popup_updateAvatar",
+  handleUpdateAvatarSubmit
+);
+popupUpdateAvatar.setEventListeners();
 const popupDeleteCard = new PopupWithSubmit(".popup_deleteCard", {
   card: (data) =>
     api
