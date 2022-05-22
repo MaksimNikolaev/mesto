@@ -66,14 +66,16 @@ function handleAddCardSubmit(item) {
   popupAddForm.renderLoading(true, "Создание...");
   api
     .addCard(item.name, item.link)
-    .then((res) => renderCard(res))
+    .then((res) => {
+      renderCard(res);
+      popupAddForm.close();
+    })
     .catch((err) => {
       console.log(`Ошибка: ${err}`);
     })
     .finally(() => {
       popupAddForm.renderLoading(false);
     });
-  popupAddForm.close();
 }
 
 //Заполнение профиля
@@ -81,14 +83,16 @@ const handleEditProfileSubmit = (data) => {
   popupEditForm.renderLoading(true, "Сохранение...");
   api
     .setUserInfo(data)
-    .then((res) => userInfo.setUserInfo(res))
+    .then((res) => {
+      userInfo.setUserInfo(res);
+      popupEditForm.close();
+    })
     .catch((err) => {
       console.log(`Ошибка: ${err}`);
     })
     .finally(() => {
       popupEditForm.renderLoading(false);
     });
-  popupEditForm.close();
 };
 
 //обновление Аватара
