@@ -189,7 +189,7 @@ const section = new Section(
   },
   ".elements__items"
 );
-section.renderItems();
+//section.renderItems();
 
 const api = new Api({
   url: "nomoreparties.co/v1/cohort-41/",
@@ -199,21 +199,13 @@ const api = new Api({
   },
 });
 
-//Получение профиля
-const user = api.getInitialUser();
-user
-  .then((data) => {
-    userId = data._id;
-    userInfo.setUserInfo(data);
-  })
-  .catch((err) => console.log(err));
-
-//получение карточек
-const cards = api.getInitialCards();
-cards
-  .then((data) => {
-    data.reverse().map((card) => {
-      renderCard(card);
-    });
-  })
-  .catch((err) => console.log(err));
+//Получение профиля и карточки
+Promise.all([api.getInitialUser(),api.getInitialCards()])
+    .then(([userData,cards])=>{
+        userInfo.setUserInfo(userData);
+        userId=userData._id;
+        cards.reverse().map((card) => renderCard(card));
+    })
+    .catch((err) => {
+        console.log(`Ошибка: ${err}`);
+    })
